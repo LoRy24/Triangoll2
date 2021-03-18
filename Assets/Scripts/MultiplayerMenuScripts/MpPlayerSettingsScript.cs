@@ -13,22 +13,33 @@ public class MpPlayerSettingsScript : MonoBehaviour {
     // 4: Purple
     // 5: Aqua
 
+    public static string[] colors = {"Blue", "Red", "Yellow", "Green", "Purple", "Aqua"};
+
     public PlayerSettingsData playerSettingsData;
 
     public TMP_InputField nameInput;
     public TMP_Dropdown dropdown;
     public GameObject setupMenu;
+    public TMP_Text nicknameInfo;
+    public TMP_Text colorInfo;
 
     void Start() {
         playerSettingsData = MpSettingsSavingSystem.HasSaved() ? MpSettingsSavingSystem
             .GetPlayerSettings() : new PlayerSettingsData("Player", 0);
         nameInput.text = playerSettingsData.playerName;
         dropdown.value = playerSettingsData.triangleColorInteger;
+        Debug.Log("Loaded!");
+        nicknameInfo.text = "Nickname: " + playerSettingsData.playerName;
+        colorInfo.text = "Color: " + MpPlayerSettingsScript.colors[playerSettingsData
+            .triangleColorInteger];
     }
 
     void Update() {
         playerSettingsData.playerName = nameInput.text;
         playerSettingsData.triangleColorInteger = dropdown.value;
+        nicknameInfo.text = "Nickname: " + playerSettingsData.playerName;
+        colorInfo.text = "Color: " + MpPlayerSettingsScript.colors[playerSettingsData
+            .triangleColorInteger];
     }
 
     public void saveAndGotoMultiplayer() {
