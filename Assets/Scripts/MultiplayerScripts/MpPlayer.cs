@@ -21,7 +21,6 @@ public class MpPlayer : NetworkBehaviour {
         player = transform.transform;
         if (isLocalPlayer) {
             nickname = MpSettingsSavingSystem.GetPlayerSettings().playerName;
-            gameManager.playersRegisteredNicksMap.Add(this, nickname);
             gameManager.playersMap.Add(nickname, this);
         }
     }
