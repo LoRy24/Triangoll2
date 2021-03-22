@@ -5,8 +5,8 @@ using System.Collections.Generic;
 
 public class MpPlayer : NetworkBehaviour {
 
-    [SyncVar]
-    public string nickname = "";
+    [SyncVar(hook=nameof(updateNicknameText))]
+    public string nickname;
 
     public float speed = 3f;
     public Transform player;
@@ -21,6 +21,7 @@ public class MpPlayer : NetworkBehaviour {
         player = transform.transform;
         if (isLocalPlayer) {
             nickname = MpSettingsSavingSystem.GetPlayerSettings().playerName;
+            gameManager.playersRegisteredNicksMap.Add(this, nickname);
             gameManager.playersMap.Add(nickname, this);
         }
     }
@@ -43,11 +44,13 @@ public class MpPlayer : NetworkBehaviour {
             Vector3 smoothPosition = Vector3.Lerp(Camera.main.transform.position, desiredPosition, smoothSpeed);
             Camera.main.transform.position = smoothPosition;
         }
-        foreach (MpPlayer cplayer in gameManager.playersMap.Values) {
-            cplayer.nicknameText.text = cplayer.nickname;
-            cplayer.nicknameText.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
-        }
+        nicknameText.text = nickname;
+        nicknameText.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
         HandleMovement();
+    }
+
+    void updateNicknameText(string oldVal, string newVal) {
+        nicknameText.text = newVal;
     }
 
     public override void OnStopServer() {
