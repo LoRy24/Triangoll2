@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
+using UnityEngine.SceneManagement;
 
 namespace kcp2k
 {
@@ -153,6 +154,7 @@ namespace kcp2k
             {
                 Log.Warning($"KCP: Connection timed out after not receiving any message for {TIMEOUT}ms. Disconnecting.");
                 Disconnect();
+                SceneManager.LoadScene(2);
             }
         }
 
