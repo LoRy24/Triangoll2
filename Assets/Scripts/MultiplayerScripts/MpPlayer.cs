@@ -15,6 +15,7 @@ public class MpPlayer : NetworkBehaviour {
     public Vector3 offset = new Vector3(0, 0, -10);
 
     public static GameScript gameManager;
+    public TMPro.TMP_Text nicknameText;
 
     void Start() {
         player = transform.transform;
@@ -41,6 +42,10 @@ public class MpPlayer : NetworkBehaviour {
             Vector3 desiredPosition = player.position + offset;
             Vector3 smoothPosition = Vector3.Lerp(Camera.main.transform.position, desiredPosition, smoothSpeed);
             Camera.main.transform.position = smoothPosition;
+        }
+        foreach (MpPlayer cplayer in gameManager.playersMap.Values) {
+            cplayer.nicknameText.text = cplayer.nickname;
+            cplayer.nicknameText.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
         }
         HandleMovement();
     }
