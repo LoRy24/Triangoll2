@@ -1,13 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class GameScript : MonoBehaviour {
+public class GameScript : NetworkBehaviour {
 
-    public IDictionary<string, MpPlayer> playersMap = new Dictionary<string, MpPlayer>();
+    //public SyncList<string> playersMap = new SyncList<string>();
+    
     public GameScript gameScript;
+    public NetworkManager networkManager;
 
     void Start() {
         MpPlayer.gameManager = gameScript;
+        MpPlayer.networkManager = networkManager;
     }
 }

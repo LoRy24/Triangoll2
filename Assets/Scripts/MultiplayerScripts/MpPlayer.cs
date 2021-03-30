@@ -15,14 +15,17 @@ public class MpPlayer : NetworkBehaviour {
     public Vector3 offset = new Vector3(0, 0, -10);
 
     public static GameScript gameManager;
+    public static NetworkManager networkManager;
     public TMPro.TMP_Text nicknameText;
+
+    public GameObject minimapPrefab;
+    private GameObject newMinimapObj;
 
     void Start() {
         player = transform.transform;
-        if (isLocalPlayer) {
-            nickname = MpSettingsSavingSystem.GetPlayerSettings().playerName;
-            gameManager.playersMap.Add(nickname, this);
-        }
+        nickname = MpSettingsSavingSystem.GetPlayerSettings().playerName;
+        newMinimapObj = Instantiate(minimapPrefab);
+        newMinimapObj.transform.position = player.position;
     }
    
     void HandleMovement() {
@@ -43,16 +46,18 @@ public class MpPlayer : NetworkBehaviour {
             Vector3 smoothPosition = Vector3.Lerp(Camera.main.transform.position, desiredPosition, smoothSpeed);
             Camera.main.transform.position = smoothPosition;
         }
-        nicknameText.text = nickname;
-        nicknameText.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
         HandleMovement();
+        newMinimapObj.transform.position = player.position;
+        nicknameText.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
     }
 
     void updateNicknameText(string oldVal, string newVal) {
         nicknameText.text = newVal;
+        nickname = newVal;
     }
 
-    public override void OnStopServer() {
+    public override void OnStopClient() {
+        if (!isLocalPlayer) return;
         SceneManager.LoadScene(2);
     }
 }
