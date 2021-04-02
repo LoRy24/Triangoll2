@@ -1,12 +1,17 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using Mirror;
 using System.Collections.Generic;
 
 public class MpPlayer : NetworkBehaviour {
 
-    [SyncVar(hook=nameof(updateNicknameText))]
+    // Shared data
+    [SyncVar(hook = nameof(updateNicknameText))]
     public string nickname;
+
+    [SyncVar(hook = nameof(updateHealtValue))]
+    public int healt;
 
     public float speed = 3f;
     public Transform player;
@@ -16,7 +21,10 @@ public class MpPlayer : NetworkBehaviour {
 
     public static GameScript gameManager;
     public static NetworkManager networkManager;
+
     public TMPro.TMP_Text nicknameText;
+    public TMPro.TMP_Text hpText;
+    public GameObject textsContainer;
 
     public GameObject minimapPrefab;
     private GameObject newMinimapObj;
@@ -24,6 +32,7 @@ public class MpPlayer : NetworkBehaviour {
     void Start() {
         player = transform.transform;
         nickname = MpSettingsSavingSystem.GetPlayerSettings().playerName;
+        healt = 150;
         newMinimapObj = Instantiate(minimapPrefab);
         newMinimapObj.transform.position = player.position;
     }
@@ -48,12 +57,26 @@ public class MpPlayer : NetworkBehaviour {
         }
         HandleMovement();
         newMinimapObj.transform.position = player.position;
-        nicknameText.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+        textsContainer.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+    }
+
+    public void teleportToRandomSpawnPoint() {
+        System.Random random = new System.Random();
+        transform.position = gameManager.spawnPoints[random.Next(0, 5)].transform.position;
+    }
+
+    public override void OnStartClient() {
+        if (isLocalPlayer) teleportToRandomSpawnPoint();
     }
 
     void updateNicknameText(string oldVal, string newVal) {
         nicknameText.text = newVal;
         nickname = newVal;
+    }
+
+    void updateHealtValue(int oldVal, int newVal) {
+        hpText.text = newVal + "HP";
+        healt = newVal;
     }
 
     public override void OnStopClient() {
