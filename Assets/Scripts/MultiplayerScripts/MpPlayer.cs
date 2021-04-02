@@ -35,6 +35,7 @@ public class MpPlayer : NetworkBehaviour {
         healt = 150;
         newMinimapObj = Instantiate(minimapPrefab);
         newMinimapObj.transform.position = player.position;
+        if (isLocalPlayer) teleportToRandomSpawnPoint();
     }
    
     void HandleMovement() {
@@ -63,12 +64,6 @@ public class MpPlayer : NetworkBehaviour {
     public void teleportToRandomSpawnPoint() {
         System.Random random = new System.Random();
         transform.position = gameManager.spawnPoints[random.Next(0, 5)].transform.position;
-    }
-
-    public override void OnStartClient() {
-        if (gameManager.playersArray.Contains(nickname)) SceneManager.LoadScene(0);
-        if (isLocalPlayer) teleportToRandomSpawnPoint();
-        gameManager.playersArray += nickname + "~";
     }
 
     void updateNicknameText(string oldVal, string newVal) {
