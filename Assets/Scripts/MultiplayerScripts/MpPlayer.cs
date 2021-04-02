@@ -72,7 +72,8 @@ public class MpPlayer : NetworkBehaviour {
     }
 
     private void Update() {
-        if (Input.GetButtonDown("Fire1")) fire();
+        if (!isLocalPlayer) return;
+        if (Input.GetButtonDown("Fire1")) fireBullet();
     }
 
     public void teleportToRandomSpawnPoint() {
@@ -108,10 +109,27 @@ public class MpPlayer : NetworkBehaviour {
         killer.kills++;
     }
 
+    public void fireBullet() {
+        if (isClientOnly) {
+            fireOnServer();
+            return;
+        }
+        fireOnClients();
+    }
+
     public void fire() {
-        if (!isLocalPlayer) return;
         MpBullet bullet = Instantiate(mpBulletPrefab, bulletSpawn.position,
             bulletSpawn.transform.rotation).GetComponent<MpBullet>();
         bullet.launchBullet(this);
+    }
+
+    [Command]
+    public void fireOnServer() { 
+        fireOnClients();
+    }
+
+    [ClientRpc]
+    public void fireOnClients() {
+        fire();
     }
 }
