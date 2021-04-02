@@ -13,8 +13,11 @@ public class MpPlayer : NetworkBehaviour {
     [SyncVar(hook = nameof(updateHealtValue))]
     public int healt;
 
+    [SyncVar(hook = nameof(updateKillsValue))]
+    public int kills;
+
     public float speed = 3f;
-    public Transform player;
+    private Transform player;
 
     public float smoothSpeed = 0.125f;
     public Vector3 offset = new Vector3(0, 0, -10);
@@ -28,6 +31,11 @@ public class MpPlayer : NetworkBehaviour {
 
     public GameObject minimapPrefab;
     private GameObject newMinimapObj;
+
+    public Transform bulletSpawn;
+    public GameObject mpBulletPrefab;
+
+    public GameObject playerPrefab;
 
     void Start() {
         player = transform.transform;
@@ -59,6 +67,12 @@ public class MpPlayer : NetworkBehaviour {
         HandleMovement();
         newMinimapObj.transform.position = player.position;
         textsContainer.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+        nicknameText.text = nickname;
+        hpText.text = healt + "HP";
+    }
+
+    private void Update() {
+        if (Input.GetButtonDown("Fire1")) fire();
     }
 
     public void teleportToRandomSpawnPoint() {
@@ -76,8 +90,28 @@ public class MpPlayer : NetworkBehaviour {
         healt = newVal;
     }
 
+    void updateKillsValue(int oldVal, int newVal) { kills = newVal; }
+
     public override void OnStopClient() {
         if (!isLocalPlayer) return;
         SceneManager.LoadScene(2);
+    }
+
+    public void takeDamage(int damage, MpPlayer damager) {
+        if (healt - damage <= 0) die(damager);
+        healt -= damage;
+    }
+
+    public void die(MpPlayer killer) {
+        teleportToRandomSpawnPoint();
+        healt = 150;
+        killer.kills++;
+    }
+
+    public void fire() {
+        if (!isLocalPlayer) return;
+        MpBullet bullet = Instantiate(mpBulletPrefab, bulletSpawn.position,
+            bulletSpawn.transform.rotation).GetComponent<MpBullet>();
+        bullet.launchBullet(this);
     }
 }
