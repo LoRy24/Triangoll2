@@ -66,7 +66,9 @@ public class MpPlayer : NetworkBehaviour {
     }
 
     public override void OnStartClient() {
+        if (gameManager.playersArray.Contains(nickname)) SceneManager.LoadScene(0);
         if (isLocalPlayer) teleportToRandomSpawnPoint();
+        gameManager.playersArray += nickname + "~";
     }
 
     void updateNicknameText(string oldVal, string newVal) {
