@@ -11,7 +11,7 @@ public class BuildScript
         //BuildWindowsClient();
     }
 
-    //[MenuItem("Build/Build Server (Windows)")]
+    [MenuItem("Build/Build Server (Windows)")]
     public static void BuildWindowsServer()
     {
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
@@ -40,11 +40,11 @@ public class BuildScript
     }
 
 
-    //[MenuItem("Build/Build Client (Windows)")]
+    [MenuItem("Build/Build Client (Windows)")]
     public static void BuildWindowsClient()
     {
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
-        buildPlayerOptions.scenes = new[] { "Assets/Scenes/MultiplayerGame.unity" };
+        buildPlayerOptions.scenes = new[] { "Assets/Scenes/MainMenu.unity", "Assets/Scenes/MainLevel.unity", "Assets/Scenes/MultiplayerMenu.unity", "Assets/Scenes/MultiplayerGame.unity" };
         buildPlayerOptions.locationPathName = "Builds/Windows/Client/Client.exe";
         buildPlayerOptions.target = BuildTarget.StandaloneWindows64;
         buildPlayerOptions.options = BuildOptions.CompressWithLz4HC;
