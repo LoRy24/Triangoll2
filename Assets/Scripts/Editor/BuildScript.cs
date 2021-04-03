@@ -15,7 +15,7 @@ public class BuildScript
     public static void BuildWindowsServer()
     {
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
-        buildPlayerOptions.scenes = new[] { "Assets/Scenes/MultiplayerGame.unity" };
+        buildPlayerOptions.scenes = new[] { "Assets/Scenes/MultiplayerScene.unity" };
         buildPlayerOptions.locationPathName = "Builds/Windows/Server/Server.exe";
         buildPlayerOptions.target = BuildTarget.StandaloneWindows64;
         buildPlayerOptions.options = BuildOptions.CompressWithLz4HC | BuildOptions.EnableHeadlessMode;
@@ -29,7 +29,7 @@ public class BuildScript
     public static void BuildLinuxServer()
     {
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
-        buildPlayerOptions.scenes = new[] { "Assets/Scenes/MultiplayerGame.unity" };
+        buildPlayerOptions.scenes = new[] { "Assets/Scenes/MultiplayerScene.unity" };
         buildPlayerOptions.locationPathName = "Builds/Linux/Server/Server.x86_64";
         buildPlayerOptions.target = BuildTarget.StandaloneLinux64;
         buildPlayerOptions.options = BuildOptions.CompressWithLz4HC | BuildOptions.EnableHeadlessMode;
@@ -44,7 +44,7 @@ public class BuildScript
     public static void BuildWindowsClient()
     {
         BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
-        buildPlayerOptions.scenes = new[] { "Assets/Scenes/MainMenu.unity", "Assets/Scenes/MainLevel.unity", "Assets/Scenes/MultiplayerMenu.unity", "Assets/Scenes/MultiplayerGame.unity" };
+        buildPlayerOptions.scenes = new[] { "Assets/Scenes/MainMenu.unity", "Assets/Scenes/MainLevel.unity", "Assets/Scenes/MultiplayerMenu.unity", "Assets/Scenes/MultiplayerGame.unity",  "Assets/Scenes/MultiplayerScene.unity"};
         buildPlayerOptions.locationPathName = "Builds/Windows/Client/Client.exe";
         buildPlayerOptions.target = BuildTarget.StandaloneWindows64;
         buildPlayerOptions.options = BuildOptions.CompressWithLz4HC;

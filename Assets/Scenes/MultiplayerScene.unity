@@ -829,6 +829,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1385627132}
   - component: {fileID: 1385627131}
+  - component: {fileID: 1385627129}
   - component: {fileID: 1385627130}
   m_Layer: 0
   m_Name: NetworkManager
@@ -837,7 +838,7 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1385627130
+--- !u!114 &1385627129
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -853,12 +854,27 @@ MonoBehaviour:
   NoDelay: 1
   Interval: 10
   FastResend: 2
-  CongestionWindow: 0
+  CongestionWindow: 1
   SendWindowSize: 4096
   ReceiveWindowSize: 4096
   debugLog: 0
   statisticsGUI: 0
   statisticsLog: 0
+--- !u!114 &1385627130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1385627128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6442dc8070ceb41f094e44de0bf87274, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  showGUI: 1
+  offsetX: 0
+  offsetY: 0
 --- !u!114 &1385627131
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -880,8 +896,8 @@ MonoBehaviour:
   serverBatchInterval: 0
   offlineScene: 
   onlineScene: 
-  transport: {fileID: 1385627130}
-  networkAddress: 26.185.188.185
+  transport: {fileID: 1385627129}
+  networkAddress: localhost
   maxConnections: 100
   disconnectInactiveConnections: 0
   disconnectInactiveTimeout: 60
@@ -1313,7 +1329,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1791715080}
-  - component: {fileID: 1791715079}
   m_Layer: 0
   m_Name: A*
   m_TagString: Untagged
@@ -1321,21 +1336,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1791715079
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1791715078}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e5ef017c55c78d4091640e0281d40d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  networkManager: {fileID: 1385627131}
-  transport: {fileID: 1385627130}
-  connectionTimedOutScreen: {fileID: 2039578718}
 --- !u!4 &1791715080
 Transform:
   m_ObjectHideFlags: 0

@@ -26,9 +26,9 @@ namespace Scripts.MultiplayerScripts {
         public void StartNetwork() {
             Debug.Log(MpLoadingValues.ConnectionType);
             if (MpLoadingValues.ConnectionType == 0) {
-                networkManager.StartClient();
                 networkManager.networkAddress = MpLoadingValues.Address;
                 transport.Port = (ushort) MpLoadingValues.Port;
+                networkManager.StartClient();
                 Debug.Log("Connection started!");
                 return;
             } else {
